@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.pgu</groupId>
+    <artifactId>project-pom</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>project-pom</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fw.version>0.0.1-SNAPSHOT</fw.version>
+        <gwt.version>2.3.0</gwt.version>
+        <javax.validation.version>1.0.0.GA</javax.validation.version>
+        <junit.version>4.8.2</junit.version>
+        <javac.version>1.6</javac.version>
+        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+        <gwt-maven-plugin.version>2.2.0</gwt-maven-plugin.version>
+        <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
+        <maven-war-plugin.version>2.1.1</maven-war-plugin.version>
+
+        <!-- for the gwt-maven-plugin, goal:compile, parametre gwt.style -->
+        <!-- Produce detailed JS during GWT compilation for development environment -->
+        <gwt.style>DETAILED</gwt.style>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>develop</id><!-- branch develop: recette -->
+            <properties>
+                <!-- Produce pretty JS during GWT compilation for test environment -->
+                <gwt.style>DETAILED</gwt.style>
+            </properties>
+        </profile>
+        <profile>
+            <id>master</id><!-- branch master: prod -->
+            <properties>
+                <!-- Produce compressed JS during GWT compilation for production environment -->
+                <gwt.style>OBFUSCATED</gwt.style>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- fw -->
+            <dependency>
+                <groupId>com.pgu.fw</groupId>
+                <artifactId>fw-web</artifactId>
+                <version>${fw.version}</version>
+                <classifier>classes</classifier>
+            </dependency>
+            <dependency>
+                <groupId>com.pgu.fw</groupId>
+                <artifactId>fw-web</artifactId>
+                <version>${fw.version}</version>
+                <classifier>sources</classifier>
+            </dependency>
+
+            <!-- gwt -->
+            <dependency>
+                <groupId>com.google.gwt</groupId>
+                <artifactId>gwt-servlet</artifactId>
+                <version>${gwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.gwt</groupId>
+                <artifactId>gwt-user</artifactId>
+                <version>${gwt.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- for the plugin gwt-maven-plugin -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validation.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validation.version}</version>
+                <classifier>sources</classifier>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!-- plugin deja execute pour compiler java mais il faut lui indiquer la version du compilateur javac -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${javac.version}</source>
+                        <target>${javac.version}</target>
+                    </configuration>
+                </plugin>
+
+                <!-- plugin qui va execute le compilateur gwt -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>gwt-maven-plugin</artifactId>
+                    <version>${gwt-maven-plugin.version}</version>
+                    <dependencies>
+                        <!-- compilation gwt error: Element 'extend-property' beginning on line 27 contains unexpected attribute 
+                            'fallback-value' -->
+                        <dependency>
+                            <groupId>com.google.gwt</groupId>
+                            <artifactId>gwt-user</artifactId>
+                            <version>${gwt.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.google.gwt</groupId>
+                            <artifactId>gwt-dev</artifactId>
+                            <version>${gwt.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <id>gwtMavenPluginCompilingTask</id>
+                            <!-- <phase>prepare-package</phase> par defaut -->
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- plugin that generates also the jar with sources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- plugin that creates a jar from the war classes, useful for other projects -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                    <configuration>
+                        <attachClasses>true</attachClasses>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

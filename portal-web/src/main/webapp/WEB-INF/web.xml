@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <context-param>
+        <param-name>modules</param-name>
+        <param-value>/WEB-INF/modules.txt</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>moduleRpc</servlet-name>
+        <servlet-class>com.pgu.portal.server.rpc.impl.ModuleRpcImpl</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>moduleRpc</servlet-name>
+        <url-pattern>/portal/service/module</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>portal.html</welcome-file>
+    </welcome-file-list>
+
+</web-app>

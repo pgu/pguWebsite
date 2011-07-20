@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pgu.news</groupId>
+        <artifactId>news-pom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../news-pom/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>news-web</artifactId>
+    <packaging>war</packaging>
+
+    <name>News Web</name>
+
+    <dependencies>
+        <!-- module dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>news-service</artifactId>
+        </dependency>
+
+        <!-- gwt module dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>news-domain</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <!-- appli dependencies -->
+        <dependency><!-- pour utiliser les classes du fw dans le code de news-web -->
+            <groupId>com.pgu.fw</groupId>
+            <artifactId>fw-web</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+        <dependency><!-- pour la compilation gwt -->
+            <groupId>com.pgu.fw</groupId>
+            <artifactId>fw-web</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <!-- GWT dependencies (from central repo) -->
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+        </dependency>
+
+        <!-- The import javax.validation.metadata cannot be resolved because of gwt-user of the plugin gwt-maven-plugin -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <!-- change the name of the appli under target: from MyApp-0.1snapshot to MyApp -->
+        <finalName>news</finalName>
+
+        <plugins>
+
+            <!-- plugin deja execute pour compiler java mais il faut lui indiquer la version du compilateur javac -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <!-- plugin qui va execute le compilateur gwt -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

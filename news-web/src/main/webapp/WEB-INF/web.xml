@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>newsRpc</servlet-name>
+        <servlet-class>com.pgu.news.server.rpc.impl.NewsRpcImpl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>menu</servlet-name>
+        <servlet-class>com.pgu.news.server.servlet.Menu</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>newsRpc</servlet-name>
+        <url-pattern>/news/service</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>menu</servlet-name>
+        <url-pattern>/menu</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>news.html</welcome-file>
+    </welcome-file-list>
+
+</web-app>

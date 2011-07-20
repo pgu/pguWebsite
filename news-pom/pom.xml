@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pgu</groupId>
+        <artifactId>project-pom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../project-pom/pom.xml</relativePath>
+    </parent>
+
+    <groupId>com.pgu.news</groupId>
+    <artifactId>news-pom</artifactId>
+    <version>0.0.1-SNAPSHOT</version><!-- the news app can have a different version from the root pom -->
+    <packaging>pom</packaging>
+    <name>News Pom</name>
+
+    <modules>
+        <module>../news-domain</module>
+        <module>../news-persistence</module>
+        <module>../news-service</module>
+        <module>../news-web</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>news-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>news-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>news-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>news-domain</artifactId>
+                <version>${project.version}</version>
+                <classifier>sources</classifier>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

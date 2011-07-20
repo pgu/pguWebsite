@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pgu.fw</groupId>
+        <artifactId>fw-pom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../fw-pom/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>fw-web</artifactId>
+    <packaging>war</packaging>
+
+    <name>Fw Web</name>
+
+    <dependencies>
+        <!-- appli dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fw-service</artifactId>
+        </dependency>
+
+        <!-- GWT dependencies (from central repo) -->
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+        </dependency>
+
+        <!-- The import javax.validation.metadata cannot be resolved because of gwt-user of the plugin gwt-maven-plugin -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <!-- change the name of the appli under target: from MyApp-0.1snapshot to MyApp -->
+        <finalName>fw</finalName>
+
+        <plugins>
+
+            <!-- plugin deja execute pour compiler java mais il faut lui indiquer la version du compilateur javac -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <!-- plugin qui va execute le compilateur gwt -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- plugin that generates also the jar with sources, necessary for the gwt compilation in other projects -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- plugin that creates a jar from the war classes, useful for other projects -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

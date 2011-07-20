@@ -1,0 +1,10 @@
+cd /c/Users/sfeir/PROG/WORKSPACE/pguWebsite/fw-web
+mvn install
+
+cd /c/Users/sfeir/PROG/WORKSPACE/pguWebsite/games-web
+mvn install
+
+cd /c/Users/sfeir/PROG/WORKSPACE/pguWebsite/portal-web
+mvn install
+
+cd /c/Users/sfeir/PROG/WORKSPACE/pguWebsite/fw-web
